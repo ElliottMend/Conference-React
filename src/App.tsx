@@ -1,9 +1,9 @@
 import "./App.css";
-import { ChatSocket } from "./components/ChatSocket";
+import { Routes } from "./Routes";
 function App() {
   return (
     <div className="App">
-      <ChatSocket />
+      <Routes />
     </div>
   );
 }
