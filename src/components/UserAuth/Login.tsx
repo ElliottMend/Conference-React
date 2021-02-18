@@ -23,7 +23,9 @@ export const Login = (props: IProps) => {
             id="password"
           />
         </label>
-        <button className="bg-gray-100 border">Submit</button>
+        <button type="submit" className="bg-gray-100 border">
+          Submit
+        </button>
       </form>
     </div>
   );
