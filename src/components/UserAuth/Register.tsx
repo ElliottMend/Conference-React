@@ -8,16 +8,19 @@ export const Register = (props: IProps) => {
     <div>
       <form className="bg-gray-100" onSubmit={props.registerSubmit}>
         <input
+          id="username"
           placeholder="username"
           onChange={props.changeRegister}
           className="border-2"
         />
         <input
+          id="password"
           placeholder="password"
           onChange={props.changeRegister}
           className="border-2"
         />
         <input
+          id="email"
           placeholder="email"
           onChange={props.changeRegister}
           className="border-2"

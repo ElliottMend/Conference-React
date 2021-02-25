@@ -1,4 +1,6 @@
 import React, { useEffect, useState } from "react";
+import { Socket } from "socket.io-client";
+import { ws } from "./ChatSocket";
 interface IText {
   message: String;
 }
@@ -8,30 +10,21 @@ interface ITextArray {
 interface IString {
   text: String;
 }
-interface IProp {
-  socket: WebSocket;
-}
+interface IProp {}
 export const Chat = (props: IProp) => {
   const [user, setUser] = useState("");
   const [state, setState] = useState<IText[]>([]);
   const [text, setText] = useState("");
   useEffect(() => {
-    props.socket.onopen = () => {
-      console.log("connected");
-    };
-    props.socket.onmessage = (evt) => {
-      const data = JSON.parse(evt.data);
-      setState((prevState) => [...prevState, { message: data.message }]);
-      console.log(state);
-    };
-    props.socket.onclose = () => {
-      console.log("disconnected");
-    };
+    ws.on("join", (data: any) => {
+      console.log(data);
+      setState([...state, data]);
+    });
+    ws.emit("join", "gdfgdf");
   }, []);
-
   const addText = (e: any) => {
     e.preventDefault();
-    props.socket.send(JSON.stringify({ user: user, message: text }));
+    ws.send(JSON.stringify({ user: user, message: text }));
   };
   const onChange = (e: any) => {
     setText(e.target.value);

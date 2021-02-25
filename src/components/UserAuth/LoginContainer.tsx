@@ -1,41 +1,26 @@
 import React, { useState, useEffect } from "react";
 import { Login } from "./Login";
-import { gql, useMutation, useQuery } from "@apollo/client";
-import { client } from "../../index";
+import axios from "axios";
 interface IState {
   username: String;
   password: String;
 }
-export const loginUser = gql`
-  mutation TokenAuth {
-    tokenAuth(username: $username, password: $password) {
-      token
-      payload
-      refreshExpiresIn
-    }
-  }
-`;
-const getDataQuery = gql`
-  query {
-    AllChatMessages(room_id: 1) {
-      user
-    }
-  }
-`;
+
 export const LoginContainer = () => {
-  const { loading, error, data } = useQuery(getDataQuery);
-  const [login] = useMutation(loginUser);
-  useEffect(() => {
-    console.log(data);
-  });
+  useEffect(() => {});
   const [state, setState] = useState<IState>({ username: "", password: "" });
   const LoginSubmit = async (e: any) => {
     console.log("dsa");
     e.preventDefault();
-    login({
-      variables: { username: state.username, password: state.password },
-    }).then((result) => {
-      console.log(result);
+    axios({
+      method: "POST",
+      url: "http://localhost:5000/auth/login",
+      data: {
+        username: state.username,
+        password: state.password,
+      },
+    }).then((res) => {
+      console.log(res);
     });
   };
 

@@ -1,13 +1,14 @@
 import React, { useEffect } from "react";
 import { Chat } from "./Chat";
-import Cookies from "js-cookie";
+import { io } from "socket.io-client";
+export const ws = io("http://0.0.0.0:5000", {
+  withCredentials: true,
+  transports: ["websocket"],
+});
 export const ChatSocket = () => {
-  console.log(Cookies.get());
-  let ws = new WebSocket(`ws://127.0.0.1:8000/chat/lbb/`);
-
   return (
     <div>
-      <Chat socket={ws} />
+      <Chat />
     </div>
   );
 };
