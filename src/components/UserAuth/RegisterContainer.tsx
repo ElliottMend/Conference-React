@@ -1,10 +1,10 @@
 import axios from "axios";
 import React, { useState } from "react";
 import { Register } from "./Register";
-interface IState {
-  username: String;
-  password: String;
-  email: String;
+export interface IState {
+  username: string;
+  password: string;
+  email: string;
 }
 export const RegisterContainer = () => {
   const [state, setState] = useState<IState>({
@@ -24,6 +24,11 @@ export const RegisterContainer = () => {
       },
     }).then((res) => {
       console.log(res);
+      setState({
+        username: "",
+        password: "",
+        email: "",
+      });
     });
   };
   const changeRegister = (e: any) => {
@@ -32,6 +37,7 @@ export const RegisterContainer = () => {
   return (
     <div>
       <Register
+        state={state}
         registerSubmit={RegisterSubmit}
         changeRegister={changeRegister}
       />

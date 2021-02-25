@@ -10,17 +10,17 @@ export const LoginContainer = () => {
   useEffect(() => {});
   const [state, setState] = useState<IState>({ username: "", password: "" });
   const LoginSubmit = async (e: any) => {
-    console.log("dsa");
     e.preventDefault();
     axios({
       method: "POST",
+      withCredentials: true,
       url: "http://localhost:5000/auth/login",
       data: {
         username: state.username,
         password: state.password,
       },
     }).then((res) => {
-      console.log(res);
+      setState({ username: "", password: "" });
     });
   };
 
