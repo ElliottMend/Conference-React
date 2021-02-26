@@ -23,7 +23,6 @@ export const RegisterContainer = () => {
         email: state.email,
       },
     }).then((res) => {
-      console.log(res);
       setState({
         username: "",
         password: "",

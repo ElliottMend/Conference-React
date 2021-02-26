@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { Login } from "./Login";
 import axios from "axios";
-interface IState {
-  username: String;
-  password: String;
+export interface IState {
+  username: string;
+  password: string;
 }
 
 export const LoginContainer = () => {
@@ -19,18 +19,21 @@ export const LoginContainer = () => {
         username: state.username,
         password: state.password,
       },
-    }).then((res) => {
+    }).then(() => {
       setState({ username: "", password: "" });
     });
   };
 
   const changeLogin = (e: any) => {
-    console.log("fds");
     setState({ ...state, [e.currentTarget.id]: e.currentTarget.value });
   };
   return (
     <div>
-      <Login LoginSubmit={LoginSubmit} changeLogin={changeLogin} />
+      <Login
+        state={state}
+        LoginSubmit={LoginSubmit}
+        changeLogin={changeLogin}
+      />
     </div>
   );
 };

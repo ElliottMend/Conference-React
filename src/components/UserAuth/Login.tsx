@@ -1,7 +1,9 @@
 import React from "react";
+import { IState } from "./LoginContainer";
 interface IProps {
   changeLogin: (event: React.ChangeEvent<HTMLInputElement>) => void;
   LoginSubmit: (event: React.FormEvent<HTMLFormElement>) => void;
+  state: IState;
 }
 export const Login = (props: IProps) => {
   return (
@@ -11,6 +13,7 @@ export const Login = (props: IProps) => {
           Username
           <input
             className="border"
+            value={props.state.username}
             onChange={props.changeLogin}
             id="username"
           />
@@ -19,6 +22,7 @@ export const Login = (props: IProps) => {
           Password
           <input
             className="border"
+            value={props.state.password}
             onChange={props.changeLogin}
             id="password"
           />
