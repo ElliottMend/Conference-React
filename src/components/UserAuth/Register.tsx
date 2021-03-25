@@ -10,6 +10,7 @@ export const Register = (props: IProps) => {
     <div>
       <form className="bg-gray-100" onSubmit={props.registerSubmit}>
         <input
+          data-testid="register-username"
           id="username"
           value={props.state.username}
           placeholder="username"
@@ -17,6 +18,7 @@ export const Register = (props: IProps) => {
           className="border-2"
         />
         <input
+          data-testid="register-password"
           id="password"
           value={props.state.password}
           placeholder="password"
@@ -24,6 +26,7 @@ export const Register = (props: IProps) => {
           className="border-2"
         />
         <input
+          data-testid="register-email"
           id="email"
           value={props.state.email}
           placeholder="email"

@@ -1,15 +1,12 @@
 import React, { useEffect, useState } from "react";
-import { io } from "socket.io-client";
 import { Chat } from "./Chat";
-
+import { socket } from "../Homepage/HomepageContainer";
 export interface IState {
   message: string;
   user: string;
   timestamp: string;
 }
-export const socket = io("http://localhost:5000", {
-  withCredentials: true,
-});
+
 const ChatContainer = () => {
   const [state, setState] = useState<IState[]>([]);
   const [text, setText] = useState("");
@@ -18,6 +15,8 @@ const ChatContainer = () => {
   };
   useEffect(() => {
     socket.on("join", (data: any) => {
+      console.log(data);
+      console.log("gfd");
       addData(data);
     });
 
@@ -28,7 +27,7 @@ const ChatContainer = () => {
   }, []);
   const addText = (e: any) => {
     e.preventDefault();
-    socket.emit("message", text);
+    socket.emit("message", { message: text });
     setText("");
   };
   const onChange = (e: any) => {

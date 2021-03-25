@@ -12,6 +12,7 @@ export const Login = (props: IProps) => {
         <label htmlFor="username">
           Username
           <input
+            data-testid="login-username"
             className="border"
             value={props.state.username}
             onChange={props.changeLogin}
@@ -21,6 +22,7 @@ export const Login = (props: IProps) => {
         <label htmlFor="password">
           Password
           <input
+            data-testid="login-password"
             className="border"
             value={props.state.password}
             onChange={props.changeLogin}

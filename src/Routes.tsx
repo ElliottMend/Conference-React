@@ -1,25 +1,32 @@
-import { fromPromise } from "@apollo/client";
 import React from "react";
 import { BrowserRouter, Switch, Route } from "react-router-dom";
 import { LoginContainer } from "./components/UserAuth/LoginContainer";
 import { RegisterContainer } from "./components/UserAuth/RegisterContainer";
-import { Header } from "./components/Views/Header";
 import { Sidebar } from "./components/Views/Sidebar";
-const ChatContainer = React.lazy(
-  () => import("./components/Chat/ChatContainer")
+const RoomContainer = React.lazy(
+  () => import("./components/Room/RoomContainer")
 );
-// import { ChatSocket } from "./components/ChatSocket";
-export const Routes = () => {
+interface IProps {
+  state: boolean;
+}
+export const Routes = (props: IProps) => {
   return (
-    <div>
+    <div className="flex">
       <React.Suspense fallback={<span>...loading</span>}>
         <BrowserRouter>
-          <Header />
           <Sidebar />
           <Switch>
-            <Route path="/login" component={() => <LoginContainer />} />
-            <Route path="/Chat" component={() => <ChatContainer />} />
-            <Route path="/Register" component={() => <RegisterContainer />} />
+            {props.state ? (
+              <Route path="/Room" component={() => <RoomContainer />} />
+            ) : (
+              <div>
+                <Route path="/login" component={() => <LoginContainer />} />
+                <Route
+                  path="/Register"
+                  component={() => <RegisterContainer />}
+                />
+              </div>
+            )}
           </Switch>
         </BrowserRouter>
       </React.Suspense>
