@@ -1,29 +1,17 @@
 import React from "react";
+import Peer from "simple-peer";
+import { AudioContainer } from "./AudioContainer";
+import { VideoContainer } from "./VideoContainer";
+
 interface IProps {
-  changeInput: (e: React.MouseEvent<Element, MouseEvent>) => void;
-  videoPlayer: React.MutableRefObject<HTMLVideoElement | null>;
-  videoPlayer1: React.MutableRefObject<HTMLVideoElement | null>;
+  user: Peer.Instance;
+  videos: MediaStream[];
 }
 export const Call = (props: IProps) => {
   return (
     <div>
-      <div>
-        {}
-        <div>
-          <p>VP</p>
-          <video ref={props.videoPlayer}></video>
-        </div>
-        <div>
-          <p>VP1</p>
-          <video ref={props.videoPlayer1}>VP1</video>
-        </div>
-      </div>
-      <button id="cam" name="Camera" onClick={props.changeInput}>
-        Camera
-      </button>
-      <button id="mic" onClick={props.changeInput}>
-        Microphone
-      </button>
+      <VideoContainer videos={props.videos} user={props.user} />
+      <AudioContainer user={props.user} />
     </div>
   );
 };

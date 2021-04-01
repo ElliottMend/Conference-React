@@ -11,11 +11,11 @@ interface IProps {
   location?: LocationState & ILocation;
 }
 const ServerContainer = (props: IProps) => {
+  const [call, setCall] = useState<boolean>(true);
   const serverId = window.location.pathname.split("/");
   useEffect(() => {
     socket.emit("join_server", { server: serverId[2] });
   }, []);
-  const [call, setCall] = useState<boolean>(true);
   const enterCall = () => {
     setCall(true);
   };

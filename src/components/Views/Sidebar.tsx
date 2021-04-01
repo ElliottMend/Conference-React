@@ -12,7 +12,7 @@ export const Sidebar = () => {
           </div>
         )}
       </MicroModal>
-      <p>Servers:</p>
+      <p className="">Servers:</p>
       <ServerList />
     </div>
   );
