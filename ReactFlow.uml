@@ -16,13 +16,13 @@ split again
 split again
     :Sidebar.tsx;
     split
-        :RoomList.tsx;
+        :ServerList.tsx;
         detach
     split again
-        :CreateRoomController.tsx;
+        :CreateServerController.tsx;
         detach
 split again
-    :RoomContainer.tsx;
+    :ServerContainer.tsx;
     split
         :VideoContainer.tsx;
         split
@@ -37,7 +37,7 @@ split again
         split end
         detach
     split again
-        :Room.tsx;
+        :Server.tsx;
         split
             :NotesContainer.tsx;
             detach

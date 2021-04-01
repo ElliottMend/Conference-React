@@ -1,19 +1,19 @@
 import MicroModal from "react-micro-modal";
-import { CreateRoomController } from "../Room/CreateRoomController";
-import { RoomList } from "../Room/RoomList";
+import { CreateServerController } from "../Server/CreateServer";
+import { ServerList } from "../Server/ServerList";
 
 export const Sidebar = () => {
   return (
     <div className="flex flex-col">
-      <MicroModal trigger={(open) => <div onClick={open}>Create Room!</div>}>
+      <MicroModal trigger={(open) => <div onClick={open}>Create Server!</div>}>
         {(close) => (
           <div>
-            <CreateRoomController onClose={close} />
+            <CreateServerController onClose={close} />
           </div>
         )}
       </MicroModal>
-      <p>Rooms:</p>
-      <RoomList />
+      <p>Servers:</p>
+      <ServerList />
     </div>
   );
 };

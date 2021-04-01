@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Chat } from "./Chat";
-import { socket } from "../Homepage/HomepageContainer";
+import { socket } from "../WebSockets";
 export interface IState {
   message: string;
   user: string;
@@ -23,7 +23,7 @@ const ChatContainer = () => {
     socket.on("message", (data: any) => {
       addData(data);
     });
-    socket.emit("join", { room: "fsfds" });
+    socket.emit("join", { server: "fsfds" });
   }, []);
   const addText = (e: any) => {
     e.preventDefault();

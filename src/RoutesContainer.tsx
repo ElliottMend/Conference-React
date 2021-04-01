@@ -8,8 +8,8 @@ export const RoutesContainer = () => {
   }, []);
   const [state, setState] = useState<boolean>(false);
   const checkAuth = async () => {
-    const res = await axiosInstance.get("/verify");
-    setState(res.status === 200 ? true : false);
+    // const res = await axiosInstance.get("/verify");
+    // setState(res.status === 200 ? true : false);
   };
   return (
     <div>

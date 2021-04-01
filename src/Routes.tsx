@@ -1,10 +1,11 @@
 import React from "react";
 import { BrowserRouter, Switch, Route } from "react-router-dom";
+import { CallContainer } from "./components/Call/CallContainer";
 import { LoginContainer } from "./components/UserAuth/LoginContainer";
 import { RegisterContainer } from "./components/UserAuth/RegisterContainer";
 import { Sidebar } from "./components/Views/Sidebar";
-const RoomContainer = React.lazy(
-  () => import("./components/Room/RoomContainer")
+const ServerContainer = React.lazy(
+  () => import("./components/Server/ServerContainer")
 );
 interface IProps {
   state: boolean;
@@ -15,18 +16,16 @@ export const Routes = (props: IProps) => {
       <React.Suspense fallback={<span>...loading</span>}>
         <BrowserRouter>
           <Sidebar />
+          {/* <ServerContainer /> */}
           <Switch>
-            {props.state ? (
-              <Route path="/Room" component={() => <RoomContainer />} />
-            ) : (
-              <div>
-                <Route path="/login" component={() => <LoginContainer />} />
-                <Route
-                  path="/Register"
-                  component={() => <RegisterContainer />}
-                />
-              </div>
-            )}
+            <Route
+              path="/Server/:ServerId"
+              component={() => <ServerContainer />}
+            />
+            <React.Fragment>
+              <Route path="/Login" component={() => <LoginContainer />} />
+              <Route path="/Register" component={() => <RegisterContainer />} />
+            </React.Fragment>
           </Switch>
         </BrowserRouter>
       </React.Suspense>

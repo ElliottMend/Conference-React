@@ -16,11 +16,9 @@ export const RegisterContainer = () => {
     e.preventDefault();
     axiosInstance
       .post("/auth/register", {
-        data: {
-          username: state.username,
-          password: state.password,
-          email: state.email,
-        },
+        username: state.username,
+        password: state.password,
+        email: state.email,
       })
       .then(() => {
         setState({

@@ -2,7 +2,7 @@ import { AxiosResponse } from "axios";
 import React, { useEffect, useState } from "react";
 import { axiosInstance } from "../../App";
 interface IProps {
-  roomId: string | undefined;
+  serverId: string | undefined;
 }
 export const UsersContainer = (props: IProps) => {
   const [users, setUsers] = useState<string[]>([]);
@@ -12,10 +12,10 @@ export const UsersContainer = (props: IProps) => {
   }, []);
 
   const getUsers = async () => {
-    const res: AxiosResponse<string[]> = await axiosInstance.get(
-      `/users/${props.roomId}`
-    );
-    setUsers(res.data);
+    // const res: AxiosResponse<string[]> = await axiosInstance.get(
+    //   `/users/${props.serverId}`
+    // );
+    // setUsers(res.data);
   };
   return <div></div>;
 };

@@ -13,10 +13,8 @@ export const LoginContainer = () => {
     e.preventDefault();
     axiosInstance
       .post("/auth/login", {
-        data: {
-          username: state.username,
-          password: state.password,
-        },
+        username: state.username,
+        password: state.password,
       })
       .then(() => {
         setState({ username: "", password: "" });

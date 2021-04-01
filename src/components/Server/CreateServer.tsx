@@ -3,22 +3,23 @@ import { axiosInstance } from "../../App";
 interface IProps {
   onClose: () => void;
 }
-export const CreateRoomController = (props: IProps) => {
-  const [text, setText] = useState({ room: "", password: "" });
+export const CreateServerController = (props: IProps) => {
+  const [text, setText] = useState({ server: "", password: "" });
   const textChange = (e: React.FormEvent<HTMLInputElement>) => {
     setText({ ...text, [e.currentTarget.id]: e.currentTarget.value });
   };
-  const createRoom = async (e: React.SyntheticEvent) => {
+  const createServer = async (e: React.SyntheticEvent) => {
     e.preventDefault();
-    await axiosInstance.post("/chat/create", {
-      data: { room: text.room, password: text.password },
+    await axiosInstance.post("/server/create_server", {
+      server: text.server,
+      password: text.password,
     });
     props.onClose();
   };
   return (
     <div>
-      <form onSubmit={createRoom}>
-        <input className="border-2" onChange={textChange} id="room" />
+      <form onSubmit={createServer}>
+        <input className="border-2" onChange={textChange} id="server" />
         <input className="border-2" onChange={textChange} id="password" />
         <button>Submit</button>
       </form>
