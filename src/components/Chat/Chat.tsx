@@ -9,7 +9,7 @@ interface IProps {
 export const Chat = (props: IProps) => {
   return (
     <div>
-      <div className="h-64 overflow-scroll">
+      <div className="h-64 w-full overflow-scroll">
         {props.state.map((e, index) => (
           <div key={index} className="border-2 w-full bg-gray-100 flex">
             <p className="p-2">{e.user}: </p>
@@ -23,7 +23,7 @@ export const Chat = (props: IProps) => {
       <br />
       <form onSubmit={props.addText}>
         <input
-          className="border-2"
+          className="border-2 w-full"
           value={props.text}
           onChange={props.onChange}
           size={100}

@@ -15,8 +15,6 @@ const ChatContainer = () => {
   };
   useEffect(() => {
     socket.on("join", (data: any) => {
-      console.log(data);
-      console.log("gfd");
       addData(data);
     });
 
@@ -34,9 +32,7 @@ const ChatContainer = () => {
     setText(e.target.value);
   };
   return (
-    <div>
-      <Chat state={state} text={text} onChange={onChange} addText={addText} />
-    </div>
+    <Chat state={state} text={text} onChange={onChange} addText={addText} />
   );
 };
 export default ChatContainer;

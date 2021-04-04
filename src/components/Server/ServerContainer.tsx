@@ -1,34 +1,46 @@
 import React, { useEffect, useState } from "react";
 import { CallContainer } from "../Call/CallContainer";
 import { Server } from "./Server";
-import { LocationState } from "history";
-import { UsersContainer } from "../Users/UsersContainer";
 import { socket } from "../WebSockets";
-interface ILocation {
-  state: string;
-}
-interface IProps {
-  location?: LocationState & ILocation;
-}
-const ServerContainer = (props: IProps) => {
+import { axiosInstance } from "../../App";
+import { AxiosResponse } from "axios";
+import { createBrowserHistory } from "history";
+import { StreamProvider } from "../Context/StreamContext";
+import { Redirect } from "react-router";
+const ServerContainer = () => {
+  let history = createBrowserHistory();
   const [call, setCall] = useState<boolean>(true);
-  const serverId = window.location.pathname.split("/");
   useEffect(() => {
-    socket.emit("join_server", { server: serverId[2] });
+    checkAuth();
   }, []);
-  const enterCall = () => {
-    setCall(true);
+  const handleUnload = () => {
+    socket.emit("leave_room", { room: serverId });
+    if (call) socket.emit("leave_room", { room: serverId + "-call" });
+  };
+  useEffect(() => {
+    window.addEventListener("beforeunload", handleUnload);
+    socket.on("connected", () => {});
+    socket.emit("join_room", { room: serverId });
+  }, [handleUnload]);
+
+  const serverId = window.location.pathname.split("/")[2];
+  const checkAuth = async () => {
+    const res = await axiosInstance.get<AxiosResponse<string>>("/auth/verify");
+    if (res.status !== 200) return <Redirect to="/Login" />;
+  };
+
+  const changeCall = () => {
+    setCall(!call);
   };
   return (
-    <div className="flex">
+    <div>
       {!call ? (
-        <Server enterCall={enterCall} />
+        <Server enterCall={changeCall} />
       ) : (
-        <CallContainer serverId={serverId[2]} />
+        <StreamProvider>
+          <CallContainer changeCall={changeCall} />
+        </StreamProvider>
       )}
-      <div>
-        <UsersContainer serverId={serverId[2]} />
-      </div>
     </div>
   );
 };

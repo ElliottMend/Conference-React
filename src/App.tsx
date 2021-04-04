@@ -1,7 +1,7 @@
 import "./App.css";
 import axios from "axios";
-import { RoutesContainer } from "./RoutesContainer";
 import "./assets/main.css";
+import { Routes } from "./Routes";
 export const axiosInstance = axios.create({
   baseURL: "http://localhost:5000",
   withCredentials: true,
@@ -9,7 +9,7 @@ export const axiosInstance = axios.create({
 function App() {
   return (
     <div className="App">
-      <RoutesContainer />
+      <Routes />
     </div>
   );
 }

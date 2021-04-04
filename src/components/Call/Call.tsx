@@ -1,17 +1,20 @@
 import React from "react";
 import Peer from "simple-peer";
-import { AudioContainer } from "./AudioContainer";
+import ChatContainer from "../Chat/ChatContainer";
+import { IPeers } from "./CallContainer";
 import { VideoContainer } from "./VideoContainer";
-
+import { IStreams } from "./CallContainer";
 interface IProps {
-  user: Peer.Instance;
-  videos: MediaStream[];
+  users: IPeers[];
+  streams: IStreams[];
+  changeCall: () => void;
 }
 export const Call = (props: IProps) => {
   return (
     <div>
-      <VideoContainer videos={props.videos} user={props.user} />
-      <AudioContainer user={props.user} />
+      <p onClick={props.changeCall}>End Call</p>
+      <VideoContainer streams={props.streams} users={props.users} />;
+      <ChatContainer />
     </div>
   );
 };
