@@ -1,55 +1,90 @@
-import React, { useState, useEffect, useRef, useContext } from "react";
+import React, {
+  useState,
+  useEffect,
+  useRef,
+  useContext,
+  createRef,
+} from "react";
 import photo from "../../assets/download.png";
 import { AudioContainer } from "./AudioContainer";
 import { StreamContext } from "../Context/StreamContext";
-import Peer from "simple-peer";
-import { IStreams } from "./CallContainer";
 import { IPeers } from "./CallContainer";
+import { socket } from "../WebSockets";
+import adapter from "webrtc-adapter";
 let video: MediaStream;
 interface IProps {
-  users: IPeers[];
-  streams: IStreams[];
+  users: IPeers;
 }
 interface ICamera {
   active: boolean;
   enabled: boolean;
   clickable: boolean;
 }
+
 export const VideoContainer = (props: IProps) => {
   const videoContext = useContext(StreamContext);
+  const containerRef = createRef<React.ForwardedRef<HTMLDivElement>>();
   const userVideo = useRef<HTMLVideoElement | null>(null);
   const videoContainer = useRef<HTMLDivElement>(null);
-  const [videoInput, setVideoInput] = useState<MediaStream | null>(null);
   const [camera, setCamera] = useState<ICamera>({
     enabled: false,
     active: false,
     clickable: true,
   });
-
   useEffect(() => {
     let isCancelled = false;
-    const element = createElement();
-    userVideo.current = element;
-    videoContainer.current?.appendChild(element);
+    setCamera({ ...camera, enabled: true, active: false });
+    getUserVideo()
+      .then(() => {
+        videoContext?.addNewTrack(video.getVideoTracks()[0]);
+      })
+      .catch((err) => {
+        console.log("err");
+      });
     return () => {
       isCancelled = true;
     };
   }, []);
-
+  const getUserVideo = async () => {
+    video = await navigator.mediaDevices.getUserMedia({
+      video: true,
+    });
+    userVideo.current = createElement(video);
+    videoContainer.current!.appendChild(userVideo.current);
+  };
   useEffect(() => {
-    props.users.forEach((user, index) => {
-      Object.values(user).forEach((peer) => {
-        const videoPlayer = createElement(
-          peer.stream.getVideoTracks().length > 0 ? peer.stream : undefined
-        );
-        console.log(peer.stream.getVideoTracks());
-        videoPlayer.id = Object.keys(user)[0];
-        videoContainer.current?.appendChild(videoPlayer);
+    socket.on("user_left_call", (sid: string) => {
+      console.log(sid);
+      const videoPlayer = document.getElementById(sid);
+      videoPlayer?.remove();
+    });
+
+    Object.values(props.users).forEach((user) => {
+      Object.keys(props.users).forEach((sid) => {
+        const videoElement = document.getElementById(
+          sid + "-video"
+        ) as HTMLVideoElement;
+        if (!videoElement) {
+          const videoPlayer = createElement(
+            user.stream ? user.stream : undefined
+          );
+          let div;
+          div = document.getElementById(sid);
+          console.log(div);
+          if (!div) {
+            div = document.createElement("div");
+            div.id = sid;
+          }
+          div.append(videoPlayer);
+          videoPlayer.id = sid + "-video";
+          videoContainer.current?.appendChild(div);
+        }
       });
     });
   }, [props.users]);
 
   const generateImage = () => {
+    videoContext?.removeTrack(videoContext.tracks.video);
     if (video && video.getVideoTracks()[0]) {
       video.getVideoTracks()[0].stop();
       video.removeTrack(video.getVideoTracks()[0]);
@@ -63,9 +98,10 @@ export const VideoContainer = (props: IProps) => {
     let element = document.createElement("video") as HTMLVideoElement;
     element.style.width = "640px";
     element.style.height = "480px";
-    if (obj) {
+    if (obj && obj!.getVideoTracks().length > 0) {
+      console.log("das");
       element.srcObject = obj;
-      element.play();
+      element.autoplay = true;
     } else {
       element.style.backgroundImage = `url(${photo})`;
       element.style.backgroundSize = "cover";
@@ -84,15 +120,25 @@ export const VideoContainer = (props: IProps) => {
       userVideo.current.play().catch(() => {
         generateImage();
       });
-      videoContext!.addNewTrack(video.getVideoTracks()[0]);
-      setVideoInput(video);
+    } else {
+      createElement(video);
     }
+    videoContext!.addNewTrack(video.getVideoTracks()[0]);
+  };
+  const screenShare = async (checked: React.ChangeEvent<HTMLInputElement>) => {
+    if (checked.target.value) {
+      // @ts-ignore
+      const stream = await navigator.mediaDevices.getDisplayMedia();
+      userVideo.current!.srcObject = stream;
+      userVideo.current!.autoplay = true;
+      videoContext?.addNewTrack(stream.getVideoTracks()[0]);
+    } else generateVideo();
   };
 
   const changeCamera = async () => {
     setCamera({ ...camera, clickable: false });
     if (camera.active) {
-      await generateImage();
+      generateImage();
     } else {
       await generateVideo();
     }
@@ -100,12 +146,17 @@ export const VideoContainer = (props: IProps) => {
   };
   return (
     <div>
-      <div className="flex" ref={videoContainer}></div>
       <div className="flex justify-center">
+        <input onChange={screenShare} type="checkbox"></input>
+
         <label>
           <svg
             className={`w-16 h-16 fill-current ${
-              camera.active ? "text-enabled-green" : "text-red-600"
+              !camera.enabled
+                ? "text-gray-500"
+                : camera.active
+                ? "text-enabled-green"
+                : "text-red-600"
             } ${!camera.clickable && "disabled"}`}
             viewBox="0 0 20 22"
           >

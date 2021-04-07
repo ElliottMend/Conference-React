@@ -5,15 +5,14 @@ import { IPeers } from "./CallContainer";
 import { VideoContainer } from "./VideoContainer";
 import { IStreams } from "./CallContainer";
 interface IProps {
-  users: IPeers[];
-  streams: IStreams[];
+  users: IPeers;
   changeCall: () => void;
 }
 export const Call = (props: IProps) => {
   return (
     <div>
       <p onClick={props.changeCall}>End Call</p>
-      <VideoContainer streams={props.streams} users={props.users} />;
+      <VideoContainer users={props.users} />;
       <ChatContainer />
     </div>
   );

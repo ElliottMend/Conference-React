@@ -7,6 +7,7 @@ import { AxiosResponse } from "axios";
 import { createBrowserHistory } from "history";
 import { StreamProvider } from "../Context/StreamContext";
 import { Redirect } from "react-router";
+import { CC } from "../Call/CC";
 const ServerContainer = () => {
   let history = createBrowserHistory();
   const [call, setCall] = useState<boolean>(true);
@@ -15,7 +16,6 @@ const ServerContainer = () => {
   }, []);
   const handleUnload = () => {
     socket.emit("leave_room", { room: serverId });
-    if (call) socket.emit("leave_room", { room: serverId + "-call" });
   };
   useEffect(() => {
     window.addEventListener("beforeunload", handleUnload);

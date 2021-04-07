@@ -1,7 +1,8 @@
 import React from "react";
 import { BrowserRouter, Switch, Route } from "react-router-dom";
-import { LoginContainer } from "./components/UserAuth/LoginContainer";
-import { RegisterContainer } from "./components/UserAuth/RegisterContainer";
+// import { LoginContainer } from "./components/UserAuth/LoginContainer";
+// import { RegisterContainer } from "./components/UserAuth/RegisterContainer";
+import { UserAuthContainer } from "./components/UserAuth/UserAuthContainer";
 
 const ServerContainer = React.lazy(
   () => import("./components/Server/ServerContainer")
@@ -17,8 +18,10 @@ export const Routes = () => {
               component={() => <ServerContainer />}
             />
             <React.Fragment>
-              <Route path="/Login" component={() => <LoginContainer />} />
-              <Route path="/Register" component={() => <RegisterContainer />} />
+              <Route
+                path={["/Login", "/Register"]}
+                component={() => <UserAuthContainer />}
+              />
             </React.Fragment>
           </Switch>
         </BrowserRouter>

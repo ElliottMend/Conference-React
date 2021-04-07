@@ -1,21 +1,33 @@
-import React, { useEffect, useState, useRef, useContext } from "react";
+import React, {
+  useEffect,
+  useState,
+  useRef,
+  useContext,
+  ForwardedRef,
+} from "react";
 import Peer from "simple-peer";
 import { IPeers } from "./CallContainer";
 import { AudioMeterController } from "./AudioMeterController";
 import { StreamContext } from "../Context/StreamContext";
+import { socket } from "../WebSockets";
+import adapter from "webrtc-adapter";
+
 interface IProps {
-  users: IPeers[];
+  users: IPeers;
 }
 interface IMic {
   enabled: boolean;
   active: boolean;
 }
-export const AudioContainer = (props: IProps) => {
+export const AudioContainer = (
+  props: IProps,
+  ref: ForwardedRef<HTMLDivElement>
+) => {
   const AudioContext = useContext(StreamContext);
-  const audioContainer = useRef<HTMLDivElement | null>(null);
+  const userStreamContainer = useRef<HTMLDivElement | null>(null);
   const [mic, setMicrophone] = useState<IMic>({
-    enabled: false,
-    active: false,
+    enabled: true,
+    active: true,
   });
 
   const [audioInput, setAudioInput] = useState<MediaStream>(new MediaStream());
@@ -28,19 +40,46 @@ export const AudioContainer = (props: IProps) => {
       isCancelled = true;
     };
   }, []);
+  useEffect(() => {
+    Object.values(props.users).forEach((user) => {
+      Object.keys(props.users).forEach((sid) => {
+        const mic = document.getElementById(sid + "-audio");
+        if (!mic) {
+          let audioPlayer = document.createElement("audio");
+          audioPlayer.srcObject = user.stream!;
+          audioPlayer.autoplay = true;
+          audioPlayer.id = sid + "-audio";
+          let div;
+          div = document.getElementById(sid);
+          console.log(div);
+
+          if (!div) {
+            div = document.createElement("div");
+            div.id = sid;
+          }
+          div.append(audioPlayer);
+        }
+      });
+    });
+    socket.on("user_left_call", (sid: string) => {
+      const userVideo = document.getElementById(sid + "-audio");
+      userVideo?.remove();
+    });
+  }, [props.users]);
+
   const setUserAudio = async () => {
     audio = await navigator.mediaDevices.getUserMedia({
       audio: true,
     });
+
     setAudioInput(audio);
     if (audio) {
       let audioPlayer = document.createElement("audio");
-      audio.getAudioTracks()[0].enabled = mic.active;
+      audio.getAudioTracks()[0].enabled = true;
       audioPlayer.srcObject = audio;
-      audioContainer.current?.appendChild(audioPlayer);
       AudioContext?.addNewTrack(audio.getAudioTracks()[0]);
       audioPlayer.play();
-      setMicrophone({ enabled: true, active: false });
+      setMicrophone({ enabled: true, active: true });
     }
   };
 
@@ -50,7 +89,7 @@ export const AudioContainer = (props: IProps) => {
   };
   return (
     <div className="flex">
-      <div ref={audioContainer} />
+      <div ref={ref} />
       <label>
         <svg
           className={`w-16 h-16 fill-current ${
@@ -77,3 +116,4 @@ export const AudioContainer = (props: IProps) => {
     </div>
   );
 };
+export default React.forwardRef(AudioContainer);

@@ -1,20 +1,20 @@
 import React from "react";
-import { IState } from "./RegisterContainer";
+import { IState } from "./UserAuthContainer";
 interface IProps {
-  changeRegister: (event: React.ChangeEvent<HTMLInputElement>) => void;
-  registerSubmit: (event: React.FormEvent<HTMLFormElement>) => void;
+  changeInput: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  submit: (event: React.FormEvent<HTMLFormElement>) => void;
   state: IState;
 }
 export const Register = (props: IProps) => {
   return (
     <div>
-      <form className="bg-gray-100" onSubmit={props.registerSubmit}>
+      <form className="bg-gray-100" onSubmit={props.submit}>
         <input
           data-testid="register-username"
           id="username"
           value={props.state.username}
           placeholder="username"
-          onChange={props.changeRegister}
+          onChange={props.changeInput}
           className="border-2"
         />
         <input
@@ -22,7 +22,7 @@ export const Register = (props: IProps) => {
           id="password"
           value={props.state.password}
           placeholder="password"
-          onChange={props.changeRegister}
+          onChange={props.changeInput}
           className="border-2"
         />
         <input
@@ -30,7 +30,7 @@ export const Register = (props: IProps) => {
           id="email"
           value={props.state.email}
           placeholder="email"
-          onChange={props.changeRegister}
+          onChange={props.changeInput}
           className="border-2"
         />
         <button>Submit</button>
