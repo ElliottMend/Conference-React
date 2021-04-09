@@ -1,71 +1,14 @@
-# Getting Started with Create React App
+# Conferencing Site
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+A Conferencing web application built using ReactJS, Typescript, Flask & PostgresDB. While also utilizing SocketIO (HTTP/WebSocket hybrid) to allow real time user communication as well as WebRTC for video chatting. It allows users to create rooms to talk to their friends/coworkers via text chat or video chat. Unit and Integrations tests done with pytest.
 
-## Available Scripts
 
-In the project directory, you can run:
+## Design Decisions
+### Purpose
+The goal behind building this application was to learn more about how users can interact live through the internet. While I had heard of terms such as “WebSocket’s” or “WebRTC” I hadn’t done much research into them or how they are used which is why I started working on this project and made them the focus of the project. As for the WebSocket’s, after doing some research I came across “SocketIO” which is built upon WebSocket’s and HTTP to provide a more reliable and more easily integrated product. With WebRTC I went with a similar path using the “simple-peer” library which handled the RTCPeer connections and made understanding the connections and signaling needed to connect two peers much easier.
 
-### `npm start`
+### Frontend
+For the frontend stack I went with Reactjs primarily because it’s the main stack I use and am most comfortable with as well as really enjoy using. During the process of working on this application I picked up Typescript in another project then quickly adopted it here. Despite having not used it for very long it already feels like something I can’t live without the static typing and error handling are something that I feel are a necessity.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
-
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
-
-### `npm test`
-
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
-
-### `npm run build`
-
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
-# Conference-React
+### Backend
+Unlike the frontend I decided to use a new stack, around the time of starting this project I had been working with python on some small projects (scripts & small data science projects) and decided to use that as a gateway to learn a python framework. Initially I started using Django as it seemed to be popular and pretty well liked, however I felt like I was spending more time learning the multitude of libraries rather than what the libraries were doing and because of that I switched to Flask. Flask has been great so far, I enjoy using barebones libraries being able to flesh out the design to my specific customization. As far as the database I decided to use PostgreSQL as it’s my preferred database seeing as it’s open source, very reliable and has some nice added features over other relational databases. Whilst working on this project I had discovered Redis, which has been a great tool and has made caching significantly easier and has allowed me to store sessions of both Flask and SocketIO making connections much more optimized.
