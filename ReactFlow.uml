@@ -1,0 +1,54 @@
+@startuml
+:RoutesContainer.tsx;
+:Routes.tsx;
+split
+    :HomepageContainer.tsx;
+    :Homepage.tsx;
+    detach
+split again
+    :RegisterContainer.tsx;
+    :Register.tsx;
+    detach
+split again
+    :LoginContainer.tsx;
+    :Login.tsx;
+    detach
+split again
+    :Sidebar.tsx;
+    split
+        :ServerList.tsx;
+        detach
+    split again
+        :CreateServerController.tsx;
+        detach
+split again
+    :ServerContainer.tsx;
+    split
+        :VideoContainer.tsx;
+        split
+            :NotesContainer.tsx;
+            detach
+        split again
+            :ChatContainer.tsx;
+            detach
+        split again
+            :UsersContainer.tsx;
+            detach
+        split end
+        detach
+    split again
+        :Server.tsx;
+        split
+            :NotesContainer.tsx;
+            detach
+        split again
+            :ChatContainer.tsx;
+            detach
+        split again
+            :UsersContainer.tsx;
+            detach
+        detach
+        split end
+    split end
+split end
+@enduml
